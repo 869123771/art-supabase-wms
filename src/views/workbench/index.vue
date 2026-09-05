@@ -1,99 +1,106 @@
 <template>
-  <div class="wms-workbench business-workspace-page art-full-height">
-    <BusinessWorkspaceHeader
-      eyebrow="WAREHOUSE OPERATIONS"
-      title="仓储运营工作台"
-      description="围绕收货、上架、库存、拣选与发运建立统一作业视图；当前已完成应用接入，业务能力将按实施路线逐步启用。"
-      icon="ri:store-3-line"
-      :tags="[
-        { label: '仓内执行', type: 'primary' },
-        { label: 'MDM 协同', type: 'success' },
-        { label: '架构准备阶段', type: 'info' }
-      ]"
-      :metrics="metrics"
-    />
+  <div class="wms-workbench art-full-height">
+    <ElScrollbar class="wms-workbench__scrollbar">
+      <div class="business-workspace-page">
+        <BusinessWorkspaceHeader
+          eyebrow="WAREHOUSE OPERATIONS"
+          title="仓储运营工作台"
+          density="compact"
+          description="围绕收货、上架、库存、拣选与发运建立统一作业视图，按实施路线逐步启用仓储业务。"
+          icon="ri:store-3-line"
+          :tags="[
+            { label: '仓内执行', type: 'primary' },
+            { label: 'MDM 协同', type: 'success' },
+            { label: '建设准备中', type: 'info' }
+          ]"
+          :metrics="metrics"
+        />
 
-    <div class="wms-workbench__content">
-      <ArtSectionCard
-        class="wms-workbench__flow-card"
-        title="仓内作业链路"
-        subtitle="以一条可追踪链路组织入库、库存和出库作业，后续启用后将在这里呈现实时节点状态。"
-        preserve-content-structure
-      >
-        <template #actions><ElTag type="success" effect="plain" round>边界已定义</ElTag></template>
-        <ol class="operation-flow" aria-label="仓内作业流程">
-          <li v-for="(stage, index) in operationStages" :key="stage.title">
-            <span class="operation-flow__index">{{ String(index + 1).padStart(2, '0') }}</span>
-            <span class="operation-flow__icon"><ArtSvgIcon :icon="stage.icon" /></span>
-            <div
-              ><strong>{{ stage.title }}</strong
-              ><small>{{ stage.description }}</small></div
+        <div class="wms-workbench__content">
+          <ArtSectionCard
+            class="wms-workbench__flow-card"
+            title="仓内作业链路"
+            subtitle="以一条可追踪链路组织入库、库存和出库作业，后续启用后将在这里呈现实时节点状态。"
+            preserve-content-structure
+          >
+            <template #actions
+              ><ElTag type="success" effect="plain" round>边界已定义</ElTag></template
             >
-          </li>
-        </ol>
-        <div class="ownership-band">
-          <div
-            ><span class="ownership-band__label">MDM 提供</span
-            ><strong>仓库 · 库位 · 物料统一身份</strong></div
-          >
-          <ArtSvgIcon icon="ri:arrow-right-line" />
-          <div
-            ><span class="ownership-band__label is-wms">WMS 负责</span
-            ><strong>库存余额 · 收发存流水 · 作业状态</strong></div
-          >
-        </div>
-      </ArtSectionCard>
+            <ol class="operation-flow" aria-label="仓内作业流程">
+              <li v-for="(stage, index) in operationStages" :key="stage.title">
+                <span class="operation-flow__index">{{ String(index + 1).padStart(2, '0') }}</span>
+                <span class="operation-flow__icon"><ArtSvgIcon :icon="stage.icon" /></span>
+                <div
+                  ><strong>{{ stage.title }}</strong
+                  ><small>{{ stage.description }}</small></div
+                >
+              </li>
+            </ol>
+            <div class="ownership-band">
+              <div
+                ><span class="ownership-band__label">MDM 提供</span
+                ><strong>仓库 · 库位 · 物料统一身份</strong></div
+              >
+              <ArtSvgIcon icon="ri:arrow-right-line" />
+              <div
+                ><span class="ownership-band__label is-wms">WMS 负责</span
+                ><strong>库存余额 · 收发存流水 · 作业状态</strong></div
+              >
+            </div>
+          </ArtSectionCard>
 
-      <ArtSectionCard
-        class="wms-workbench__readiness-card"
-        title="上线准备"
-        subtitle="当前接入状态与下一步建设重点。"
-        preserve-content-structure
-      >
-        <ul class="readiness-list">
-          <li v-for="item in readinessItems" :key="item.label">
-            <span class="readiness-list__icon"><ArtSvgIcon icon="ri:check-line" /></span>
-            <div
-              ><strong>{{ item.label }}</strong
-              ><small>{{ item.description }}</small></div
-            >
-            <ElTag size="small" type="success" effect="light" round>已完成</ElTag>
-          </li>
-        </ul>
-        <div class="next-step">
-          <span><ArtSvgIcon icon="ri:flag-line" /></span>
-          <div
-            ><small>NEXT MILESTONE</small><strong>建立仓库、库区与库位模型</strong
-            ><p>先完成仓网基础与库存台账，再接收入库和出库作业。</p></div
+          <ArtSectionCard
+            class="wms-workbench__readiness-card"
+            title="上线准备"
+            subtitle="当前接入状态与下一步建设重点。"
+            preserve-content-structure
           >
-        </div>
-      </ArtSectionCard>
+            <ul class="readiness-list">
+              <li v-for="item in readinessItems" :key="item.label">
+                <span class="readiness-list__icon"><ArtSvgIcon icon="ri:check-line" /></span>
+                <div
+                  ><strong>{{ item.label }}</strong
+                  ><small>{{ item.description }}</small></div
+                >
+                <ElTag size="small" type="success" effect="light" round>已完成</ElTag>
+              </li>
+            </ul>
+            <div class="next-step">
+              <span><ArtSvgIcon icon="ri:flag-line" /></span>
+              <div
+                ><small>下一步建设重点</small><strong>建立仓库、库区与库位模型</strong
+                ><p>先完成仓网基础与库存台账，再接收入库和出库作业。</p></div
+              >
+            </div>
+          </ArtSectionCard>
 
-      <ArtSectionCard
-        class="wms-workbench__roadmap-card"
-        title="能力实施路线"
-        subtitle="按数据基础、核心执行、运营优化三个阶段推进，减少跨域返工。"
-        preserve-content-structure
-      >
-        <div class="roadmap-grid">
-          <article v-for="(phase, index) in roadmap" :key="phase.title">
-            <div class="roadmap-grid__heading"
-              ><span>{{ index + 1 }}</span
-              ><div
-                ><small>{{ phase.code }}</small
-                ><strong>{{ phase.title }}</strong></div
-              ></div
-            >
-            <p>{{ phase.description }}</p>
-            <div class="roadmap-grid__tags"
-              ><ElTag v-for="item in phase.items" :key="item" size="small" effect="plain">{{
-                item
-              }}</ElTag></div
-            >
-          </article>
+          <ArtSectionCard
+            class="wms-workbench__roadmap-card"
+            title="能力实施路线"
+            subtitle="按数据基础、核心执行、运营优化三个阶段推进，减少跨域返工。"
+            preserve-content-structure
+          >
+            <div class="roadmap-grid">
+              <article v-for="(phase, index) in roadmap" :key="phase.title">
+                <div class="roadmap-grid__heading"
+                  ><span>{{ index + 1 }}</span
+                  ><div
+                    ><small>{{ phase.code }}</small
+                    ><strong>{{ phase.title }}</strong></div
+                  ></div
+                >
+                <p>{{ phase.description }}</p>
+                <div class="roadmap-grid__tags"
+                  ><ElTag v-for="item in phase.items" :key="item" size="small" effect="plain">{{
+                    item
+                  }}</ElTag></div
+                >
+              </article>
+            </div>
+          </ArtSectionCard>
         </div>
-      </ArtSectionCard>
-    </div>
+      </div>
+    </ElScrollbar>
   </div>
 </template>
 
@@ -110,14 +117,14 @@
     {
       label: '应用运行时',
       value: '已接入',
-      description: '独立子仓与平台壳层',
+      description: '仓储应用入口已就绪',
       icon: 'ri:links-line',
       tone: 'success'
     },
     {
       label: '菜单与权限',
       value: '已注册',
-      description: '管理员角色可访问',
+      description: '按角色授权访问',
       icon: 'ri:shield-keyhole-line',
       tone: 'success'
     },
@@ -131,7 +138,7 @@
     {
       label: '业务作业',
       value: '待启用',
-      description: '当前不展示模拟数据',
+      description: '业务接入后查看实绩',
       icon: 'ri:play-circle-line',
       tone: 'info'
     }
@@ -147,9 +154,9 @@
   ]
 
   const readinessItems = [
-    { label: '独立模块仓库', description: '版本与发布边界已隔离' },
-    { label: '平台运行时', description: '共享登录、主题与布局' },
-    { label: '菜单权限', description: '应用入口与角色授权已登记' }
+    { label: '应用入口', description: '仓储工作台已接入平台' },
+    { label: '统一工作空间', description: '共享登录、主题与导航' },
+    { label: '访问权限', description: '菜单与角色授权已登记' }
   ]
 
   const roadmap = [
@@ -176,13 +183,23 @@
 
 <style scoped lang="scss">
   .wms-workbench {
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    height: var(--art-full-height);
+    min-height: 0;
+    overflow: hidden;
+
+    &__scrollbar {
+      flex: 1;
+      min-height: 0;
+    }
 
     &__content {
       display: grid;
-      flex: 1;
+      flex: 0 0 auto;
       grid-template-columns: minmax(0, 1.8fr) minmax(300px, 0.8fr);
-      gap: 12px;
+      gap: 16px;
+      align-content: start;
       min-height: 0;
     }
 
@@ -240,8 +257,8 @@
       margin-bottom: 10px;
       font-size: 21px;
       color: var(--el-color-primary);
-      background: var(--el-color-primary-light-9);
-      border: 1px solid var(--el-color-primary-light-7);
+      background: color-mix(in srgb, var(--theme-color) 10%, var(--el-bg-color));
+      border: 1px solid color-mix(in srgb, var(--theme-color) 25%, var(--el-border-color-lighter));
       border-radius: 14px;
     }
 
@@ -293,7 +310,7 @@
 
     &__label.is-wms {
       color: var(--el-color-primary);
-      background: var(--el-color-primary-light-9);
+      background: color-mix(in srgb, var(--theme-color) 10%, var(--el-bg-color));
     }
 
     strong {
@@ -319,6 +336,17 @@
 
     li + li {
       border-top: 1px solid var(--el-border-color-lighter);
+    }
+
+    li > div {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    :deep(.el-tag) {
+      justify-self: end;
+      min-width: 60px;
+      white-space: nowrap;
     }
 
     &__icon {
@@ -430,7 +458,7 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--el-color-primary);
-      background: var(--el-color-primary-light-9);
+      background: color-mix(in srgb, var(--theme-color) 10%, var(--el-bg-color));
       border-radius: 9px;
     }
 

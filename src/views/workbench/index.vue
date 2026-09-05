@@ -4,7 +4,7 @@
       eyebrow="WAREHOUSE OPERATIONS"
       title="仓储运营工作台"
       description="围绕收货、上架、库存、拣选与发运建立统一作业视图；当前已完成应用接入，业务能力将按实施路线逐步启用。"
-      icon="ri:warehouse-line"
+      icon="ri:store-3-line"
       :tags="[
         { label: '仓内执行', type: 'primary' },
         { label: 'MDM 协同', type: 'success' },

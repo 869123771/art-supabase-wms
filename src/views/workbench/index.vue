@@ -1,106 +1,100 @@
 <template>
-  <div class="wms-workbench art-full-height">
-    <ElScrollbar class="wms-workbench__scrollbar">
-      <div class="business-workspace-page">
-        <BusinessWorkspaceHeader
-          eyebrow="WAREHOUSE OPERATIONS"
-          title="仓储运营工作台"
-          density="compact"
-          description="围绕收货、上架、库存、拣选与发运建立统一作业视图，按实施路线逐步启用仓储业务。"
-          icon="ri:store-3-line"
-          :tags="[
-            { label: '仓内执行', type: 'primary' },
-            { label: 'MDM 协同', type: 'success' },
-            { label: '建设准备中', type: 'info' }
-          ]"
-          :metrics="metrics"
-        />
+  <div class="wms-workbench business-workspace-page">
+    <BusinessWorkspaceHeader
+      eyebrow="WAREHOUSE OPERATIONS"
+      title="仓储运营工作台"
+      density="compact"
+      description="围绕收货、上架、库存、拣选与发运建立统一作业视图，按实施路线逐步启用仓储业务。"
+      icon="ri:store-3-line"
+      :tags="[
+        { label: '仓内执行', type: 'primary' },
+        { label: 'MDM 协同', type: 'success' },
+        { label: '建设准备中', type: 'info' }
+      ]"
+      :metrics="metrics"
+    />
 
-        <div class="wms-workbench__content">
-          <ArtSectionCard
-            class="wms-workbench__flow-card"
-            title="仓内作业链路"
-            subtitle="以一条可追踪链路组织入库、库存和出库作业，后续启用后将在这里呈现实时节点状态。"
-            preserve-content-structure
-          >
-            <template #actions
-              ><ElTag type="success" effect="plain" round>边界已定义</ElTag></template
+    <div class="wms-workbench__content">
+      <ArtSectionCard
+        class="wms-workbench__flow-card"
+        title="仓内作业链路"
+        subtitle="以一条可追踪链路组织入库、库存和出库作业，后续启用后将在这里呈现实时节点状态。"
+        preserve-content-structure
+      >
+        <template #actions><ElTag type="success" effect="plain" round>边界已定义</ElTag></template>
+        <ol class="operation-flow" aria-label="仓内作业流程">
+          <li v-for="(stage, index) in operationStages" :key="stage.title">
+            <span class="operation-flow__index">{{ String(index + 1).padStart(2, '0') }}</span>
+            <span class="operation-flow__icon"><ArtSvgIcon :icon="stage.icon" /></span>
+            <div
+              ><strong>{{ stage.title }}</strong
+              ><small>{{ stage.description }}</small></div
             >
-            <ol class="operation-flow" aria-label="仓内作业流程">
-              <li v-for="(stage, index) in operationStages" :key="stage.title">
-                <span class="operation-flow__index">{{ String(index + 1).padStart(2, '0') }}</span>
-                <span class="operation-flow__icon"><ArtSvgIcon :icon="stage.icon" /></span>
-                <div
-                  ><strong>{{ stage.title }}</strong
-                  ><small>{{ stage.description }}</small></div
-                >
-              </li>
-            </ol>
-            <div class="ownership-band">
-              <div
-                ><span class="ownership-band__label">MDM 提供</span
-                ><strong>仓库 · 库位 · 物料统一身份</strong></div
-              >
-              <ArtSvgIcon icon="ri:arrow-right-line" />
-              <div
-                ><span class="ownership-band__label is-wms">WMS 负责</span
-                ><strong>库存余额 · 收发存流水 · 作业状态</strong></div
-              >
-            </div>
-          </ArtSectionCard>
-
-          <ArtSectionCard
-            class="wms-workbench__readiness-card"
-            title="上线准备"
-            subtitle="当前接入状态与下一步建设重点。"
-            preserve-content-structure
+          </li>
+        </ol>
+        <div class="ownership-band">
+          <div
+            ><span class="ownership-band__label">MDM 提供</span
+            ><strong>仓库 · 库位 · 物料统一身份</strong></div
           >
-            <ul class="readiness-list">
-              <li v-for="item in readinessItems" :key="item.label">
-                <span class="readiness-list__icon"><ArtSvgIcon icon="ri:check-line" /></span>
-                <div
-                  ><strong>{{ item.label }}</strong
-                  ><small>{{ item.description }}</small></div
-                >
-                <ElTag size="small" type="success" effect="light" round>已完成</ElTag>
-              </li>
-            </ul>
-            <div class="next-step">
-              <span><ArtSvgIcon icon="ri:flag-line" /></span>
-              <div
-                ><small>下一步建设重点</small><strong>建立仓库、库区与库位模型</strong
-                ><p>先完成仓网基础与库存台账，再接收入库和出库作业。</p></div
-              >
-            </div>
-          </ArtSectionCard>
-
-          <ArtSectionCard
-            class="wms-workbench__roadmap-card"
-            title="能力实施路线"
-            subtitle="按数据基础、核心执行、运营优化三个阶段推进，减少跨域返工。"
-            preserve-content-structure
+          <ArtSvgIcon icon="ri:arrow-right-line" />
+          <div
+            ><span class="ownership-band__label is-wms">WMS 负责</span
+            ><strong>库存余额 · 收发存流水 · 作业状态</strong></div
           >
-            <div class="roadmap-grid">
-              <article v-for="(phase, index) in roadmap" :key="phase.title">
-                <div class="roadmap-grid__heading"
-                  ><span>{{ index + 1 }}</span
-                  ><div
-                    ><small>{{ phase.code }}</small
-                    ><strong>{{ phase.title }}</strong></div
-                  ></div
-                >
-                <p>{{ phase.description }}</p>
-                <div class="roadmap-grid__tags"
-                  ><ElTag v-for="item in phase.items" :key="item" size="small" effect="plain">{{
-                    item
-                  }}</ElTag></div
-                >
-              </article>
-            </div>
-          </ArtSectionCard>
         </div>
-      </div>
-    </ElScrollbar>
+      </ArtSectionCard>
+
+      <ArtSectionCard
+        class="wms-workbench__readiness-card"
+        title="上线准备"
+        subtitle="当前接入状态与下一步建设重点。"
+        preserve-content-structure
+      >
+        <ul class="readiness-list">
+          <li v-for="item in readinessItems" :key="item.label">
+            <span class="readiness-list__icon"><ArtSvgIcon icon="ri:check-line" /></span>
+            <div
+              ><strong>{{ item.label }}</strong
+              ><small>{{ item.description }}</small></div
+            >
+            <ElTag size="small" type="success" effect="light" round>已完成</ElTag>
+          </li>
+        </ul>
+        <div class="next-step">
+          <span><ArtSvgIcon icon="ri:flag-line" /></span>
+          <div
+            ><small>下一步建设重点</small><strong>建立仓库、库区与库位模型</strong
+            ><p>先完成仓网基础与库存台账，再接收入库和出库作业。</p></div
+          >
+        </div>
+      </ArtSectionCard>
+
+      <ArtSectionCard
+        class="wms-workbench__roadmap-card"
+        title="能力实施路线"
+        subtitle="按数据基础、核心执行、运营优化三个阶段推进，减少跨域返工。"
+        preserve-content-structure
+      >
+        <div class="roadmap-grid">
+          <article v-for="(phase, index) in roadmap" :key="phase.title">
+            <div class="roadmap-grid__heading"
+              ><span>{{ index + 1 }}</span
+              ><div
+                ><small>{{ phase.code }}</small
+                ><strong>{{ phase.title }}</strong></div
+              ></div
+            >
+            <p>{{ phase.description }}</p>
+            <div class="roadmap-grid__tags"
+              ><ElTag v-for="item in phase.items" :key="item" size="small" effect="plain">{{
+                item
+              }}</ElTag></div
+            >
+          </article>
+        </div>
+      </ArtSectionCard>
+    </div>
   </div>
 </template>
 
@@ -183,17 +177,6 @@
 
 <style scoped lang="scss">
   .wms-workbench {
-    display: flex;
-    flex-direction: column;
-    height: var(--art-full-height);
-    min-height: 0;
-    overflow: hidden;
-
-    &__scrollbar {
-      flex: 1;
-      min-height: 0;
-    }
-
     &__content {
       display: grid;
       flex: 0 0 auto;
